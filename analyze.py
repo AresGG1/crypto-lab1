@@ -1,9 +1,11 @@
 from pathlib import Path
+from common_functions import caesar_decrypt
 
 INPUT_FILE = 'enc_out.txt'
+CHARS_SORTED = 'etaoinshrdlcumwfgypbvkjxqz'
 
 
-def analyze(text: str):
+def analyze(text: str) -> list:
     frequencies = {}
     total_characters = 0
 
@@ -25,21 +27,27 @@ def analyze(text: str):
     return sorted_frequencies
 
 
-def get_shift(char: str):
-    most_common_char = 'e'
+def get_shift(char: str, text: str) -> None:
+    for common_char in CHARS_SORTED:
+        shift = ord(char) - ord(common_char)
+        direction = 'right' if shift >= 0 else 'left'
 
-    shift = ord(char) - ord(most_common_char)
+        print('Shift: ', abs(shift), direction)
 
-    direction = 'right' if shift >= 0 else 'left'
+        print('Decoded phrase: ', caesar_decrypt(text, shift, direction))
 
-    print('Shift: ', abs(shift), direction)
+        ans = input('Is this correct ? (y/n): ')
+
+        if ans.lower() == 'y':
+            print('Finished')
+            return
 
 
-def main():
+def main() -> None:
     input_text = Path(INPUT_FILE).read_text()
     res = analyze(input_text)
 
-    get_shift(res[0][0])
+    get_shift(res[0][0], input_text)
 
 
 if __name__ == '__main__':
