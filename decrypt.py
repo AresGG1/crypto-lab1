@@ -4,7 +4,7 @@ INPUT_FILE = 'dec_inp.txt'
 OUTPUT_FILE = 'dec_out.txt'
 
 
-def main():
+def main() -> None:
     handle_io(INPUT_FILE, OUTPUT_FILE, caesar_decrypt)
 
 

@@ -23,7 +23,7 @@ def caesar_encrypt(text: str, shift: int, direction: str) -> str:
     return encrypted_text
 
 
-def make_shift(shift_value: int, start_from: int, char: str):
+def make_shift(shift_value: int, start_from: int, char: str) -> str:
     return chr((ord(char) - start_from + shift_value) % LETTERS_IN_ALPHABET + start_from)
 
 
@@ -37,7 +37,7 @@ def caesar_decrypt(encrypted_text: str, shift: int, direction: str) -> str:
     return decrypted_text
 
 
-def handle_io(input_file: str, output_file: str, action: callable):
+def handle_io(input_file: str, output_file: str, action: callable) -> None:
     shift = int(input('Enter shift\n'))
     direction = input('Enter direction left or right\n')
 
