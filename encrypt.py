@@ -5,7 +5,7 @@ OUTPUT_FILE = 'enc_out.txt'
 
 
 def main() -> None:
-    handle_io(INPUT_FILE, OUTPUT_FILE, caesar_encrypt)
+    handle_io(INPUT_FILE, OUTPUT_FILE)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,7 @@
+import string
 from pathlib import Path
+from typing import Dict
+import random
 
 LETTERS_IN_ALPHABET = 26
 UPPERCASE_STARTS_FROM = 65
@@ -37,11 +40,58 @@ def caesar_decrypt(encrypted_text: str, shift: int, direction: str) -> str:
     return decrypted_text
 
 
-def handle_io(input_file: str, output_file: str, action: callable) -> None:
+def map_to_numbers(text: str, table: Dict) -> str:
+    output = ''
+
+    for char in text:
+        output += str(table.get(char))
+        output += ' '
+
+    return output
+
+
+def map_to_chars(numbers: str, table: Dict) -> str:
+    res = ''
+
+    numbers_array = numbers.split(' ')
+
+    for num in numbers_array:
+        res += table.get(int(num))
+
+    return res
+
+
+def swap_table(table: Dict[str, int]) -> Dict[int, str]:
+    return {value: key for key, value in table.items()}
+
+
+def generate_table() -> Dict[str, int]:
+    chars = list(string.ascii_uppercase + ' ')
+    numbers = [i for i in range(0, len(chars))]
+    random.shuffle(numbers)
+
+    return dict(zip(chars, numbers))
+
+
+def handle_io(input_file: str, output_file: str) -> None:
     shift = int(input('Enter shift\n'))
     direction = input('Enter direction left or right\n')
 
     text = Path(input_file).read_text()
-    decrypted = action(text, shift, direction)
+    text = text.upper()
 
-    Path(output_file).write_text(decrypted)
+    # caesar
+    processed: str = caesar_encrypt(text, shift, direction)
+
+    table = generate_table()
+
+    processed = map_to_numbers(processed, table)
+    processed = 'processed ' + processed.upper()
+
+    processed += f"\nshift {shift}"
+    processed += f"\ndirection {direction}"
+    processed += f"\ntable " + ','.join([f"{key}:{value}" for key, value in table.items()])
+
+    Path(output_file).write_text(processed)
+
+    print(generate_table())
